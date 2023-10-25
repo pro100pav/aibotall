@@ -14,7 +14,6 @@ class HomeController extends Controller
 {
     public function index(Request $request){
         $text = '';
-        $user = Auth::user();
         if ($request->isMethod('post')){
             $env = new Gpt();
             $resultgpt = $env->aibot($request->text);
