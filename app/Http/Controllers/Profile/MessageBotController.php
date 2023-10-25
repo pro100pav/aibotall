@@ -18,9 +18,14 @@ class MessageBotController extends Controller
 {
     public function index(Request $request){
         $user = Auth::user();
-        $bot = BotChat::where('id_telegram', $user->uid_telegram)->first();
-        dd($bot->UserMessage);
-        return view('profile.message', compact('user'));
+        $messages;
+        if($user){
+            $bot = BotChat::where('id_telegram', $user->uid_telegram)->first();
+            if($bot){
+                $messages = $bot->UserMessage;
+            }
+        }
+        return view('profile.message', compact('user', 'messages'));
     }
     
 }

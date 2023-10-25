@@ -27,6 +27,11 @@
                     <span class="nav-text">Рабочий стол</span>
                 </a>
             </li>
+            <li><a href="{{route('profile.message')}}" class="ai-icon" aria-expanded="false">
+                    <i class="flaticon-013-checkmark"></i>
+                    <span class="nav-text">Переписка с ботом</span>
+                </a>
+            </li>
 
 
 
