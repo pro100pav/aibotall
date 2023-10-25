@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Http\Controllers\Bots;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Bot\Bot;
+use App\Models\Bot\BotChat;
+use App\Models\Bot\UserChatBot;
+use App\Models\Gpt\GptKey;
+use App\Customs\Gpt;
+use App\Customs\CreateUser;
+use Telegram\Bot\Api;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Keyboard\Keyboard;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+
+class BotsTelegramController extends Controller
+{
+    public function index(Request $request, $id){
+        $bot = Bot::find($id);
+        $token = $bot->token;
+        $telegram = new Api($token);
+        $result = $telegram->getWebhookUpdates();
+
+        if (isset($result["message"])) {
+            
+            $chat_id = '';
+            if(isset($result["message"]["chat"]["id"])){
+                $chat_id = $result["message"]["chat"]["id"];
+            }
+            $text = '';
+            if(isset($result["message"]["text"])){
+                $text = $result["message"]["text"];
+            }
+            $this->saveUserNew($result, $text, $chat_id, $bot);
+            if($text){
+                $this->saveMessage($text, $chat_id, $bot, 'client');
+                if($text == '/start'){
+                    $reply = 'Спроси меня о чем ни то';
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => $reply,
+                    ]);
+                    $this->saveMessage($reply, $chat_id, $bot, 'bot');
+                    
+                }elseif($text == '/register'){
+                    $create = new CreateUser();
+                    $resultUser = $create->index($result);
+                    $reply = 'Привет';
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => $reply,
+                    ]);
+                    $this->saveMessage($reply, $chat_id, $bot, 'bot');
+                    
+                }else{
+                    // $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
+                    // $response = $telegram->sendMessage([
+                    //     'chat_id' => $chat_id,
+                    //     'text' => $reply,
+                    // ]);
+
+                    $env = new Gpt();
+                    $resultgpt = $env->aibot($text);
+                    $sendtext = $resultgpt;
+                    if(strlen($resultgpt) > 4000){
+                        $sendtext = Str::limit($resultgpt, 3000);
+                    }
+                    if($result == 'Закончились'){
+                        $telegram->sendMessage([
+                            'chat_id' => '555530711',
+                            'text' => 'Закончились ключи GPT',
+                        ]);
+                    }else{
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $sendtext,
+                        ]);
+                        $req = $this->saveMessage($resultgpt, $chat_id, $bot, 'bot');
+                        if(strlen($resultgpt) > 4000){
+                            $response = $telegram->sendMessage([
+                                'chat_id' => $chat_id,
+                                'text' => 'Вам пришел не полный ответ, так как у телеграм есть лимиты на 1 сообщение, полный ответ вы модете посмотреть тут -> https://my-all.ru/info/'.$req->id,
+                            ]);
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
+
+
+    function saveUserNew($info, $idUser, $chat_id, $bot){
+        $hasChat = BotChat::where([['bot_id', $bot->id],['id_telegram', $chat_id]])->first();
+        if(!$hasChat){
+            $name = '';
+            $username = '';
+            if(isset($info["message"]["chat"]["first_name"])){
+                $name = $info["message"]["chat"]["first_name"];
+            }else{
+                $name = 'Таинственный незнакомец';
+            }
+            if(isset($info["message"]["chat"]["username"])){
+                $username = $info["message"]["chat"]["username"];
+            }
+            BotChat::create([
+                'bot_id' => $bot->id,
+                'name' => $name,
+                'nicname' => $username,
+                'id_telegram' => $chat_id,
+            ]);
+        }
+    }
+    function saveMessage($info, $chat_id, $bot, $messageWhy){
+        $chat = BotChat::where([['bot_id', $bot->id],['id_telegram', $chat_id]])->first();
+        if($chat){
+            if($messageWhy == 'client'){
+                return UserChatBot::create([
+                    'bot_chat_id' => $chat->id,
+                    'messagebot' => null,
+                    'message_client' => $info,
+                    'close' => 1,
+                    'send' => 1,
+                ]);
+            }else if($messageWhy == 'botgpt'){
+                return UserChatBot::create([
+                    'bot_chat_id' => $chat->id,
+                    'messagebot' => null,
+                    'message_client' => $info,
+                    'close' => 0,
+                    'send' => 0,
+                ]);
+            }
+            else{
+                return UserChatBot::create([
+                    'bot_chat_id' => $chat->id,
+                    'messagebot' => $info,
+                    'message_client' => null,
+                    'close' => 1,
+                    'send' => 1,
+                ]);
+            }
+        }
+    }
+}
