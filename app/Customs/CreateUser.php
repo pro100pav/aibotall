@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,7 +25,7 @@ class CreateUser
         if(isset($req["message"]["chat"]["username"])){
             $username = $req["message"]["chat"]["username"];
         }
-        $password = str_random(8);
+        $password = Str::password(8);
         $user = User::create([
             'name' => $name,
             'username' => $username,
