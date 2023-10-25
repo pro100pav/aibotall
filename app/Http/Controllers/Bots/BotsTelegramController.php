@@ -77,6 +77,7 @@ https://t.me/adcovers2023';
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
                             'text' => $reply,
+                            'parse_mode' => 'HTML'
                         ]);
                     } catch (TelegramResponseException $e) {
                         $response = "Заблокирован";
