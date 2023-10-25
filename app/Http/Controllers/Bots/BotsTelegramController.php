@@ -48,8 +48,8 @@ class BotsTelegramController extends Controller
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/register'){
-                    $create = new CreateUser();
-                    $resultUser = $create->index($result);
+                    // $create = new CreateUser();
+                    // $resultUser = $create->index($result);
                     $reply = 'Привет';
                     $response = $telegram->sendMessage([
                         'chat_id' => $chat_id,
