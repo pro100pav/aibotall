@@ -21,5 +21,6 @@
 	<link rel="stylesheet" href="{{asset('assets/vendor/nouislider/nouislider.min.css')}}">
 	<!-- Style css -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/css/style-dop.css')}}" rel="stylesheet">
 	
 </head>

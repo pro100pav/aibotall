@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page_name'=>'Рабочий стол', 'key'=>'value'])
+@extends('layouts.start', ['page_name'=>'Рабочий стол'])
 @section('content')
 
 @endsection
