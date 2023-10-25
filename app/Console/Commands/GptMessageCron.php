@@ -9,6 +9,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
