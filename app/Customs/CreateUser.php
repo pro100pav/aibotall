@@ -16,13 +16,13 @@ class CreateUser
         $username;
         $uid_telegram = 0;
         if(isset($req["message"]["chat"]["id"])){
-            $uid_telegram = $result["message"]["chat"]["id"];
+            $uid_telegram = $req["message"]["chat"]["id"];
         }
-        if(isset($info["message"]["chat"]["first_name"])){
-            $name = $info["message"]["chat"]["first_name"];
+        if(isset($req["message"]["chat"]["first_name"])){
+            $name = $req["message"]["chat"]["first_name"];
         }
-        if(isset($info["message"]["chat"]["username"])){
-            $username = $info["message"]["chat"]["username"];
+        if(isset($req["message"]["chat"]["username"])){
+            $username = $req["message"]["chat"]["username"];
         }
         $password = str_random(8);
         $user = User::create([
