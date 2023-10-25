@@ -46,52 +46,62 @@ class GptMessageCron extends Command
     public function handle()
     {
 
-        $res = UserChatBot::where('close','0')->first();
-        if($res){
-            $env = new Gpt();
-            $result = $env->aibot($res->message_client);
-            if($result != 0){
-                
-                $bot = $res->botChat->bot;
-                $telegram = new Api($bot->token);
-
-                if($result == 'Закончились'){
-                    $telegram->sendMessage([
-                        'chat_id' => '555530711',
-                        'text' => 'Закончились ключи GPT',
-                    ]);
-                }else{
-                    try {
-                        $response = $telegram->sendMessage([
-                            'chat_id' => $res->botChat->id_telegram,
-                            'text' => $result,
-                        ]);
-                    } catch (TelegramResponseException $e) {
-                        $response = "Заблокирован";
-                    }
-                    if($response == "Заблокирован"){
-                        UserChatBot::create([
-                            'bot_chat_id' => $res->bot_chat_id,
-                            'messagebot' => 'Пользователь заблокировал бота',
-                            'message_client' => null,
-                            'close' => 1,
-                            'send' => 1,
+        $res = UserChatBot::where('close','0')->take(30)->get();
+        if($res->count() > 0){
+            foreach($res as $item){
+                $env = new Gpt();
+                $result = $env->aibot($item->message_client);
+                if($result != 0){
+                    $bot = $item->botChat->bot;
+                    $telegram = new Api($bot->token);
+                    if($result == 'Закончились'){
+                        $telegram->sendMessage([
+                            'chat_id' => '555530711',
+                            'text' => 'Закончились ключи GPT',
                         ]);
                     }else{
-                        UserChatBot::create([
-                            'bot_chat_id' => $res->bot_chat_id,
-                            'messagebot' => $result,
-                            'message_client' => null,
-                            'close' => 1,
-                            'send' => 1,
-                        ]);
+                        try {
+                            $sendtext = $result;
+                            if(strlen($result) > 4000){
+                                $sendtext = Str::limit($result, 3000);
+                            }
+                            $response = $telegram->sendMessage([
+                                'chat_id' => $item->botChat->id_telegram,
+                                'text' => $sendtext,
+                            ]);
+
+                            
+                        } catch (TelegramResponseException $e) {
+                            $response = "Заблокирован";
+                        }
+                        if($response == "Заблокирован"){
+                            UserChatBot::create([
+                                'bot_chat_id' => $item->bot_chat_id,
+                                'messagebot' => 'Пользователь заблокировал бота',
+                                'message_client' => null,
+                                'close' => 1,
+                                'send' => 1,
+                            ]);
+                        }else{
+                            $message = UserChatBot::create([
+                                'bot_chat_id' => $item->bot_chat_id,
+                                'messagebot' => $result,
+                                'message_client' => null,
+                                'close' => 1,
+                                'send' => 1,
+                            ]);
+                            if(strlen($result) > 4000){
+                                $response = $telegram->sendMessage([
+                                    'chat_id' => $item->botChat->id_telegram,
+                                    'text' => 'Вам пришел не полный ответ, так как у телеграм есть лимиты на 1 сообщение, полный ответ вы модете посмотреть тут -> https://my-all.ru/info/'.$message->id.'?key='.$item->botChat->id_telegram,
+                                ]);
+                            }
+                        }
+                        $item->close = 1;
+                        $item->send = 1;
+                        $item->save();
                     }
-                    $res->close = 1;
-                    $res->send = 1;
-                    $res->save();
                 }
-                
-                
             }
         }
     }

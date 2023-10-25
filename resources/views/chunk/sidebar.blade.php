@@ -32,10 +32,6 @@
                     <span class="nav-text">Переписка с ботом</span>
                 </a>
             </li>
-
-
-
         </ul>
-
     </div>
 </div>

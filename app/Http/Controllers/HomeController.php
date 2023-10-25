@@ -26,8 +26,12 @@ class HomeController extends Controller
     }
     public function messagefind(Request $request, $id){
         $text = UserChatBot::find($id);
-        
-        
+        if(!$text){
+            abort(404);
+        }
+        if($text->botChat->id_telegram != $request->key){
+            abort(404);
+        }
         return view('message', compact('text'));
     }
 }

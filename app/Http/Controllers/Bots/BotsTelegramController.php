@@ -91,47 +91,12 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }else{
-                    // $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
-                    // $response = $telegram->sendMessage([
-                    //     'chat_id' => $chat_id,
-                    //     'text' => $reply,
-                    // ]);
-
-                    $env = new Gpt();
-                    $resultgpt = $env->aibot($text);
-                    $sendtext = $resultgpt;
-                    if(strlen($resultgpt) > 4000){
-                        $sendtext = Str::limit($resultgpt, 3000);
-                    }
-                    if($result == 'Закончились'){
-                        $telegram->sendMessage([
-                            'chat_id' => '555530711',
-                            'text' => 'Закончились ключи GPT',
-                        ]);
-                    }else{
-                        try {
-                            $response = $telegram->sendMessage([
-                                'chat_id' => $chat_id,
-                                'text' => $sendtext,
-                            ]);
-                        } catch (TelegramResponseException $e) {
-                            $response = "Заблокирован";
-                        }
-                        
-                        $req = $this->saveMessage($resultgpt, $chat_id, $bot, 'bot');
-                        if(strlen($resultgpt) > 4000){
-                            try {
-                                $response = $telegram->sendMessage([
-                                    'chat_id' => $chat_id,
-                                    'text' => 'Вам пришел не полный ответ, так как у телеграм есть лимиты на 1 сообщение, полный ответ вы модете посмотреть тут -> https://my-all.ru/info/'.$req->id,
-                                ]);
-                            } catch (TelegramResponseException $e) {
-                                $response = "Заблокирован";
-                            }
-                            
-                        }
-                        
-                    }
+                    $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => $reply,
+                    ]);
+                    $req = $this->saveMessage($text, $chat_id, $bot, 'botgpt');
                     
                 }
             }

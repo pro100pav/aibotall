@@ -22,7 +22,6 @@ class ProfileController extends Controller
     public function messagefind(Request $request, $id){
         $text = UserChatBot::find($id);
         
-        
         return view('message', compact('text'));
     }
 }
