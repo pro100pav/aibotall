@@ -68,6 +68,14 @@ $reply = "Ваши данные для входа в личный кабинет
                     ]);
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
+                }elseif($text == '/login'){
+$reply = "Личный кабинет: https://my-all.ru/login"; 
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => $reply,
+                    ]);
+                    $this->saveMessage($reply, $chat_id, $bot, 'bot');
+                    
                 }else{
                     // $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
                     // $response = $telegram->sendMessage([
