@@ -13,6 +13,7 @@ use App\Customs\CreateUser;
 use Telegram\Bot\Api;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Keyboard\Keyboard;
+use Telegram\Bot\Exceptions\TelegramResponseException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -41,10 +42,15 @@ class BotsTelegramController extends Controller
                 $this->saveMessage($text, $chat_id, $bot, 'client');
                 if($text == '/start'){
                     $reply = 'Спроси меня о чем ни то';
-                    $response = $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => $reply,
-                    ]);
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $reply,
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }
+                    
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/register'){
@@ -62,18 +68,26 @@ $reply = "Ваши данные для входа в личный кабинет
 ";
                     }
 
-                    $response = $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => $reply,
-                    ]);
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $reply,
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/login'){
 $reply = "Личный кабинет: https://my-all.ru/login"; 
-                    $response = $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => $reply,
-                    ]);
+                        try {
+                            $response = $telegram->sendMessage([
+                                'chat_id' => $chat_id,
+                                'text' => $reply,
+                            ]);
+                        } catch (TelegramResponseException $e) {
+                            $response = "Заблокирован";
+                        }
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }else{
@@ -95,16 +109,26 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                             'text' => 'Закончились ключи GPT',
                         ]);
                     }else{
-                        $response = $telegram->sendMessage([
-                            'chat_id' => $chat_id,
-                            'text' => $sendtext,
-                        ]);
-                        $req = $this->saveMessage($resultgpt, $chat_id, $bot, 'bot');
-                        if(strlen($resultgpt) > 4000){
+                        try {
                             $response = $telegram->sendMessage([
                                 'chat_id' => $chat_id,
-                                'text' => 'Вам пришел не полный ответ, так как у телеграм есть лимиты на 1 сообщение, полный ответ вы модете посмотреть тут -> https://my-all.ru/info/'.$req->id,
+                                'text' => $sendtext,
                             ]);
+                        } catch (TelegramResponseException $e) {
+                            $response = "Заблокирован";
+                        }
+                        
+                        $req = $this->saveMessage($resultgpt, $chat_id, $bot, 'bot');
+                        if(strlen($resultgpt) > 4000){
+                            try {
+                                $response = $telegram->sendMessage([
+                                    'chat_id' => $chat_id,
+                                    'text' => 'Вам пришел не полный ответ, так как у телеграм есть лимиты на 1 сообщение, полный ответ вы модете посмотреть тут -> https://my-all.ru/info/'.$req->id,
+                                ]);
+                            } catch (TelegramResponseException $e) {
+                                $response = "Заблокирован";
+                            }
+                            
                         }
                         
                     }
