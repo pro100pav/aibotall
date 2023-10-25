@@ -25,6 +25,9 @@ class CreateUser
         if(isset($req["message"]["chat"]["username"])){
             $username = $req["message"]["chat"]["username"];
         }
+        if(User::where('uid_telegram', $uid_telegram)->first()){
+            return 'Существует';
+        }
         $password = Str::password(8);
         $user = User::create([
             'name' => $name,

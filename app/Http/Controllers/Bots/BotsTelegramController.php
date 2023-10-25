@@ -50,11 +50,18 @@ class BotsTelegramController extends Controller
                 }elseif($text == '/register'){
                     $create = new CreateUser();
                     $resultUser = $create->index($result);
+                    if($resultUser == 'Существует'){
+$reply = "Вы уже зарегистрированы
+Личный кабинет: https://my-all.ru/login
+"; 
+                    }else{
 $reply = "Ваши данные для входа в личный кабинет:
 Логин: ".$resultUser['login']."
 Пароль: ".$resultUser['password']."
 Личный кабинет: https://my-all.ru/login
 ";
+                    }
+
                     $response = $telegram->sendMessage([
                         'chat_id' => $chat_id,
                         'text' => $reply,
