@@ -39,8 +39,9 @@ class BotsTelegramController extends Controller
             }
             $this->saveUserNew($result, $text, $chat_id, $bot);
             if($text){
-                $this->saveMessage($text.'1', $chat_id, $bot, 'client');
+                
                 if($text == '/start'){
+                    $this->saveMessage($text, $chat_id, $bot, 'client');
 $reply = `Привет, я бесплатный чат GPT в телеграм боте.
 
 Я могу отвечать на вопросы, предоставлять информацию, выполнять команды, развлекать, помогать в организации задач и многое другое. Результат нашего с тобой взаимодействия. зависит именно от твоих целей и фантазии.
@@ -84,6 +85,7 @@ https://t.me/adcovers2023`;
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/register'){
+                    $this->saveMessage($text, $chat_id, $bot, 'client');
                     $create = new CreateUser();
                     $resultUser = $create->index($result);
                     if($resultUser == 'Существует'){
@@ -109,6 +111,7 @@ $reply = "Ваши данные для входа в личный кабинет
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/login'){
+                    $this->saveMessage($text, $chat_id, $bot, 'client');
 $reply = "Личный кабинет: https://my-all.ru/login"; 
                         try {
                             $response = $telegram->sendMessage([
@@ -121,6 +124,7 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }else{
+                    $this->saveMessage($text, $chat_id, $bot, 'client');
                     $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
                     $response = $telegram->sendMessage([
                         'chat_id' => $chat_id,
@@ -174,8 +178,7 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                     'close' => 0,
                     'send' => 0,
                 ]);
-            }
-            else{
+            }else{
                 return UserChatBot::create([
                     'bot_chat_id' => $chat->id,
                     'messagebot' => $info,
