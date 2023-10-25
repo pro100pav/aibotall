@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bot_chats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bot_id')->nullable()->constrained('bots')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('id_telegram')->nullable();
+            $table->bigInteger('id_telegram')->nullable();
             $table->string('name', 255)->nullable();
             $table->string('nicname', 255)->nullable();
             $table->timestamps();
