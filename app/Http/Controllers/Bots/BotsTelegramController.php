@@ -39,7 +39,7 @@ class BotsTelegramController extends Controller
             }
             $this->saveUserNew($result, $text, $chat_id, $bot);
             if($text){
-                $this->saveMessage($text, $chat_id, $bot, 'client');
+                $this->saveMessage($text.'1', $chat_id, $bot, 'client');
                 if($text == '/start'){
 $reply = `Привет, я бесплатный чат GPT в телеграм боте.
 
@@ -126,7 +126,7 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                         'chat_id' => $chat_id,
                         'text' => $reply,
                     ]);
-                    $req = $this->saveMessage($text, $chat_id, $bot, 'botgpt');
+                    $req = $this->saveMessage($text.'2', $chat_id, $bot, 'botgpt');
                     
                 }
             }
