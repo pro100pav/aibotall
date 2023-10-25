@@ -76,7 +76,7 @@ https://t.me/adcovers2023';
                     try {
                         $response = $telegram->sendPhoto([
                             'chat_id' => $chat_id,
-                            'photo' => public_path().'/assets/botimage.jpg',
+                            'photo' => \Telegram\Bot\FileUpload\InputFile::create('https://my-all.ru/assets/botimage.jpg'),
                         ]);
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
