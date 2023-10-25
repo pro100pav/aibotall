@@ -21,8 +21,8 @@ Route::prefix('bots')->group(function () {
 });
 Route::get('/info/{id}', [App\Http\Controllers\HomeController::class, 'messagefind'])->name('info');
 Route::middleware(['auth'])->prefix('profile')->group(function () {
-    
     Route::get('/', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/messages', [App\Http\Controllers\Profile\MessageBotController::class, 'index'])->name('profile.message');
 });
 Route::fallback(function (){
     abort(404);
