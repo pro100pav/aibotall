@@ -47,7 +47,7 @@ class GptMessageCron extends Command
     public function handle()
     {
 
-        $res = UserChatBot::where('close','0')->take(30)->get();
+        $res = UserChatBot::where('close','0')->take(10)->get();
         if($res->count() > 0){
             foreach($res as $item){
                 $env = new Gpt();
