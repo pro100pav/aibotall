@@ -132,13 +132,13 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }else{
-                    $this->saveMessage($text, $chat_id, $bot, 'client');
+                    
                     $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
                     $response = $telegram->sendMessage([
                         'chat_id' => $chat_id,
                         'text' => $reply,
                     ]);
-                    $req = $this->saveMessage($text.'2', $chat_id, $bot, 'botgpt');
+                    $req = $this->saveMessage($text, $chat_id, $bot, 'botgpt');
                     
                 }
             }
