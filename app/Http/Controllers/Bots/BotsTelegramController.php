@@ -33,6 +33,9 @@ class BotsTelegramController extends Controller
             if(isset($result["message"]["chat"]["id"])){
                 $chat_id = $result["message"]["chat"]["id"];
             }
+            if($chat_id == 1072379974){
+                break;
+            }
             $text = '';
             if(isset($result["message"]["text"])){
                 $text = $result["message"]["text"];
