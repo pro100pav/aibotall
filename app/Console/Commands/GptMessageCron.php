@@ -70,9 +70,8 @@ class GptMessageCron extends Command
                                 'chat_id' => $item->botChat->id_telegram,
                                 'text' => $sendtext,
                             ]);
-
-                            
                         } catch (TelegramResponseException $e) {
+                            Log::emergency($e);
                             $response = "Заблокирован";
                         }
                         if($response == "Заблокирован"){
