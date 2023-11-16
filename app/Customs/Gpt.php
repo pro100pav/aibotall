@@ -22,16 +22,16 @@ class Gpt
         if($gpt){
             Log::emergency('попали');
             $result = Http::timeout(60)->withHeaders([
-                "Authorization" => "Bearer ".$gpt->key_api
+                "Authorization" => "Bearer ".$gpt->key_api,
             ])->withOptions(["verify"=>false])->post($gpt->link,[
-                'model' => $gpt->model,
+                "model"=> "GigaChat:latest",
                 "messages" => [
-                    [
-                        "role"=> "user",
-                        "content"=> $res
+                        [
+                            "role"=> "user",
+                            "content"=> "Что такое автомобиль"
+                        ],
                     ],
-                ],
-                'temperature' => 0,
+                "temperature"=> 0.7
             ]);
             Log::emergency($result);
             if(isset($result->json()['choices'])){
