@@ -28,7 +28,7 @@ class Gpt
                 "messages" => [
                         [
                             "role"=> "user",
-                            "content"=> "Что такое автомобиль"
+                            "content"=> $res
                         ],
                     ],
                 "temperature"=> 0.7
