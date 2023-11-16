@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     public function index(Request $request){
         
-        return view('admin.index');
+        return view('adminka.index');
     }
     public function authSber(Request $request){
         
@@ -30,7 +30,7 @@ class AdminController extends Controller
             "scope" => "scope=GIGACHAT_API_CORP",
         ])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[]);
         dd($result);
-        return view('admin.index');
+        return view('adminka.index');
     }
     
 }
