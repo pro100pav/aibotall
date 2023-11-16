@@ -28,7 +28,7 @@ class AdminController extends Controller
             "Authorization" => "Bearer ".$request->token,
             "RqUID" => $request->client,
             "scope" => "scope=GIGACHAT_API_CORP",
-        ])withOptions([
+        ])->withOptions([
             'SSL_VERIFYPEER' => false,
             'SSL_VERIFYHOST'=> false,
         ])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[]);
