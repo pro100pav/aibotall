@@ -39,9 +39,9 @@ class Gpt
                 $gpt->save();
                 return $this->aibot($res);
             }else{
+                Log::emergency($result);
                 $gpt->error = 1;
                 $gpt->save();
-                return $this->aibot($res);
                 return 0;
             }
         }else{
