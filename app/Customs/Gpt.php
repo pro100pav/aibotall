@@ -20,6 +20,7 @@ class Gpt
     public function aibot($res){
         $gpt = GptKey::where('error', 0)->first();
         if($gpt){
+            Log::emergency('попали');
             $result = Http::timeout(60)->withHeaders([
                 "Content-Type" => "application/json",
                 "Authorization" => "Bearer ".$gpt->key_api
@@ -30,12 +31,15 @@ class Gpt
                 'temperature' => 0,
             ]);
             if(isset($result->json()['choices'])){
+                Log::emergency('true');
                 return $result->json()['choices'][0]['text'];
             }else if(isset($result->json()['error'])){
                 $gpt->error = 1;
                 $gpt->save();
+                Log::emergency('false');
                 return $this->aibot($res);
             }else{
+                Log::emergency('false1');
                 return 0;
             }
         }else{
