@@ -32,7 +32,7 @@ class AdminController extends Controller
                 "messages" => [
                     [
                         "role"=> "user",
-                        "content"=> $res
+                        "content"=> 'Что такое автомобиль'
                     ],
                 ],
                 'temperature' => 0,
@@ -43,7 +43,7 @@ class AdminController extends Controller
                 return $result->json()['choices'][0]['message']['content'];
             }else if(isset($result->json()['error'])){
                 dd(2);
-                return $this->aibot($res);
+                //return $this->aibot($res);
             }else{
                 dd(3);
                 return 0;
