@@ -24,13 +24,12 @@ class AdminController extends Controller
         
         $result = Http::timeout(60)->withHeaders([
             "Content-Type" => "application/x-www-form-urlencoded",
-            "Authorization" => "Bearer ".$request->token . '1',
+            "Authorization" => "Bearer ".$request->token,
             "RqUID" => $this->generate_uuid()
             
         ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[
-            'form_params' => [
-                'scope' => 'GIGACHAT_API_PERS',
-            ]
+            'scope' => 'GIGACHAT_API_PERS',
+
         ]);
         dd($result,$result->json());
         return view('adminka.index');
