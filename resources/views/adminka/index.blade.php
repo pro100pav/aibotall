@@ -7,6 +7,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Подключение API sber</h5>
                         <form method="POST" action="{{route('admin.authSber')}}">
+                            @csrf
                             <div class="mb-3">
                                 <label for="inp1" class="form-label">Токен</label>
                                 <input type="text" name="token" class="form-control" id="inp1">
