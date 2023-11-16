@@ -28,7 +28,9 @@ class AdminController extends Controller
             "RqUID" => $this->generate_uuid()
             
         ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[
-            "scope" => "GIGACHAT_API_PERS",
+            'form_params' => [
+                'scope' => 'GIGACHAT_API_PERS',
+            ]
         ]);
         dd($result,$result->json());
         return view('adminka.index');
