@@ -30,17 +30,18 @@ class Gpt
                 'max_tokens'=> 2048,
                 'temperature' => 0,
             ]);
-            Log::emergency($result);
+
             if(isset($result->json()['choices'])){
                 Log::emergency('true');
                 return $result->json()['choices'][0]['text'];
             }else if(isset($result->json()['error'])){
                 $gpt->error = 1;
                 $gpt->save();
-                Log::emergency('false');
                 return $this->aibot($res);
             }else{
-                Log::emergency('false1');
+                $gpt->error = 1;
+                $gpt->save();
+                return $this->aibot($res);
                 return 0;
             }
         }else{
