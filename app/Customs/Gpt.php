@@ -20,7 +20,6 @@ class Gpt
     public function aibot($res){
         $gpt = GptKey::where('error', 0)->first();
         if($gpt){
-            Log::emergency('попали');
             $result = Http::timeout(60)->withHeaders([
                 "Authorization" => "Bearer ".$gpt->key_api,
             ])->withOptions(["verify"=>false])->post($gpt->link,[
