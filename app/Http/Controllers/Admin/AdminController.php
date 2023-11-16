@@ -37,7 +37,7 @@ class AdminController extends Controller
                     ],
                 "temperature"=> 0.7
             ]);
-            dd($result);
+            dd($result->json());
             if(isset($result->json()['choices'])){
                 dd(1);
                 return $result->json()['choices'][0]['message']['content'];
