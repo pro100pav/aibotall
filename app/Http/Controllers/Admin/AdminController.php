@@ -31,7 +31,7 @@ class AdminController extends Controller
         ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[
             "scope" => "GIGACHAT_API_PERS",
         ]);
-        dd($result->json());
+        dd($result);
         return view('adminka.index');
     }
     
