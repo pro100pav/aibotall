@@ -24,10 +24,14 @@ class Gpt
             $result = Http::timeout(60)->withHeaders([
                 "Content-Type" => "application/json",
                 "Authorization" => "Bearer ".$gpt->key_api
-            ])->post($gpt->link,[
+            ])->withOptions(["verify"=>false])->post($gpt->link,[
                 'model' => $gpt->model,
-                'prompt' => $res,
-                'max_tokens'=> 2048,
+                "messages" => [
+                    [
+                        "role"=> "user",
+                        "content"=> $res
+                    ],
+                ],
                 'temperature' => 0,
             ]);
 

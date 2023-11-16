@@ -33,9 +33,9 @@ class BotsTelegramController extends Controller
             if(isset($result["message"]["chat"]["id"])){
                 $chat_id = $result["message"]["chat"]["id"];
             }
-            // if($chat_id == 1072379974){
-            //     exit();
-            // }
+            if($chat_id == 1110252829){
+                exit();
+            }
             $text = '';
             if(isset($result["message"]["text"])){
                 $text = $result["message"]["text"];
@@ -72,10 +72,10 @@ $reply = 'Привет, я бесплатный чат GPT в телеграм �
 <i>И еще очень много вариантов применения, ты можешь придумать)) Не ограничивай свою фантазию) Вариантов применения очень много.</i>
 ';
                     try {
-                        $response = $telegram->sendPhoto([
-                            'chat_id' => $chat_id,
-                            'photo' => \Telegram\Bot\FileUpload\InputFile::create('https://my-all.ru/assets/botimage.jpg'),
-                        ]);
+                        // $response = $telegram->sendPhoto([
+                        //     'chat_id' => $chat_id,
+                        //     'photo' => \Telegram\Bot\FileUpload\InputFile::create('https://my-all.ru/assets/botimage.jpg'),
+                        // ]);
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
                             'text' => $reply,
@@ -128,13 +128,13 @@ $reply = "Личный кабинет: https://my-all.ru/login";
                     
                 }else{
                     
-                    //$reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
-                    $reply = 'Приносим извинения! по техническим причинам ИИ не может обрабатывать запросы';
+                    $reply = 'Ваш запрос получен, когда ответ будет сформирован мы пришлем его вам. Среднее время обработки запроса составляет 1 минуту';
+                    //$reply = 'Приносим извинения! по техническим причинам ИИ не может обрабатывать запросы';
                     $response = $telegram->sendMessage([
                         'chat_id' => $chat_id,
                         'text' => $reply,
                     ]);
-                    $req = $this->saveMessage($text, $chat_id, $bot, 'bot');
+                    $req = $this->saveMessage($text, $chat_id, $bot, 'botgpt');
                     
                 }
             }
