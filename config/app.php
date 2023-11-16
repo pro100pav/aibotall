@@ -183,7 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'admin' => \App\Http\Middleware\RoleMiddleware::class,
     ])->toArray(),
 
 ];
