@@ -35,7 +35,6 @@ class Gpt
             ]);
             
             if(isset($result->json()['choices'])){
-                
                 return $result->json()['choices'][0]['message']['content'];
             }else if(isset($result->json()['error'])){
                 $gpt->error = 1;
