@@ -30,6 +30,7 @@ class Gpt
                 'max_tokens'=> 2048,
                 'temperature' => 0,
             ]);
+            Log::emergency($result);
             if(isset($result->json()['choices'])){
                 Log::emergency('true');
                 return $result->json()['choices'][0]['text'];
