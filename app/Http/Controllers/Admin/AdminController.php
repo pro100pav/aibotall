@@ -27,8 +27,10 @@ class AdminController extends Controller
             "Content-Type" => "application/x-www-form-urlencoded",
             "Authorization" => "Bearer ".$request->token,
             "RqUID" => $request->client,
+            
+        ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[
             "scope" => "GIGACHAT_API_PERS",
-        ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[]);
+        ]);
         dd($result->json());
         return view('adminka.index');
     }
