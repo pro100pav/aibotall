@@ -3,7 +3,7 @@
         <ul class="metismenu" id="menu">
             <li class="dropdown header-profile">
                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                    <img src="{{asset('assets/images/profile/pic1.jpg')}}" width="20" alt=""/>
+
                     <div class="header-info ms-3">
                         <span class="font-w600 ">{{Auth::user()->username}}</span>
                     </div>

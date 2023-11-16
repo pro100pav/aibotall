@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Bot\BotChat;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -45,4 +46,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function status(){
+        if($this->role == 0){
+            return 'Супер-юзер';
+        }
+        if($this->role == 1){
+            return 'Пользователь';
+        }
+        if($this->role == 2){
+            return 'Партнер';
+        }
+        if($this->role == 3){
+            return 'Заблокированый';
+        }
+    }
+    public function req(){
+        return BotChat::where('id_telegram', $this->uid_telegram)->first();
+    }
 }

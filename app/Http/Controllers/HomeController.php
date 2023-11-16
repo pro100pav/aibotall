@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use Auth;
 use App\Models\User;
 use App\Customs\Gpt;
 use App\Models\Bot\UserChatBot;
@@ -12,17 +14,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request){
-        $text = '';
-        if ($request->isMethod('post')){
-            $env = new Gpt();
-            $resultgpt = $env->aibot($request->text);
-            $text = $resultgpt;
-            $text = Str::limit($resultgpt, 3000);
-            dd(strlen($text), strlen($resultgpt));
-        }
-        
-        return view('welcome', compact('text'));
+    public function index(Request $request){    
+        if(Auth::user()){
+            return redirect()->route('profile.index');
+        }  
+        return view('home');
     }
     public function messagefind(Request $request, $id){
         $text = UserChatBot::find($id);

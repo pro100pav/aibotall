@@ -15,6 +15,8 @@ class BotChat extends Model
         'id_telegram',
         'name',
         'nicname',
+        'role',
+        'requests',
     ];
 
 
