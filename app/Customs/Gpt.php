@@ -22,7 +22,6 @@ class Gpt
         if($gpt){
             Log::emergency('попали');
             $result = Http::timeout(60)->withHeaders([
-                "Content-Type" => "application/json",
                 "Authorization" => "Bearer ".$gpt->key_api
             ])->withOptions(["verify"=>false])->post($gpt->link,[
                 'model' => $gpt->model,
