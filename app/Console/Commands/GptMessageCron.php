@@ -56,10 +56,11 @@ class GptMessageCron extends Command
                     $bot = $item->botChat->bot;
                     $telegram = new Api($bot->token);
                     if($result == 'Закончились'){
-                        $telegram->sendMessage([
-                            'chat_id' => '555530711',
-                            'text' => 'Закончились ключи GPT',
-                        ]);
+                        // $telegram->sendMessage([
+                        //     'chat_id' => '555530711',
+                        //     'text' => 'Закончились ключи GPT',
+                        // ]);
+                        return false;
                     }else{
                         try {
                             $sendtext = $result;
