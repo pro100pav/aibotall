@@ -21,39 +21,18 @@ class AdminController extends Controller
         return view('adminka.index');
     }
     public function authSber(Request $request){
-        $gpt = GptKey::where('error', 0)->first();
-
-        if($gpt){
-            Log::emergency('попали');
-            $result = Http::timeout(60)->withHeaders([
-                "Authorization" => "Bearer ".$gpt->key_api,
-            ])->withOptions(["verify"=>false])->post($gpt->link,[
-                "model"=> "GigaChat:latest",
-                "messages" => [
-                        [
-                            "role"=> "user",
-                            "content"=> "Что такое автомобиль"
-                        ],
-                    ],
-                "temperature"=> 0.7
-            ]);
-            dd($result->json());
-            if(isset($result->json()['choices'])){
-                dd(1);
-                return $result->json()['choices'][0]['message']['content'];
-            }else if(isset($result->json()['error'])){
-                dd(2);
-                //return $this->aibot($res);
-            }else{
-                dd(3);
-                return 0;
-            }
-        }else{
-            return 'Закончились';
-        }
-
-
-        dd($result,$result->json());
+        $result = Http::withHeaders([
+            "Content-Type" => "application/x-www-form-urlencoded",
+            "RqUID" => "5caae699-f93c-4875-b587-a64f8152b371",
+            "Authorization" => "Bearer NWNhYWU2OTktZjkzYy00ODc1LWI1ODctYTY0ZjgxNTJiMzcxOmU4MTNjZTAyLWIxOTQtNDc1OC05Njg4LTljYTg0MjNmODZlOQ==",
+        ])
+        ->withBody(
+            'scope=GIGACHAT_API_PERS', 'application/x-www-form-urlencoded'
+        )
+        ->withOptions(["verify"=>false])
+        ->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth');
+        
+        dd($result,$result->json()['access_token']);
         return view('adminka.index');
     }
     function generate_uuid() {

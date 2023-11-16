@@ -13,5 +13,6 @@ class GptKey extends Model
         'model',
         'link',
         'error',
+        'send',
     ];
 }
