@@ -36,7 +36,7 @@ class AdminController extends Controller
         ]);
 
 
-        dd($result,$result->json());
+        dd($result,$result->json()['choices'][0]['message']['content']);
         return view('adminka.index');
     }
     function generate_uuid() {

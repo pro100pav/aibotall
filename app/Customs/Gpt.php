@@ -34,10 +34,10 @@ class Gpt
                 ],
                 'temperature' => 0,
             ]);
-
+            Log::emergency($result);
             if(isset($result->json()['choices'])){
                 Log::emergency('true');
-                return $result->json()['choices'][0]['text'];
+                return $result->json()['choices'][0]['message']['content'];
             }else if(isset($result->json()['error'])){
                 $gpt->error = 1;
                 $gpt->save();
