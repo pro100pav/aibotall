@@ -26,7 +26,7 @@ class AdminController extends Controller
         $result = Http::timeout(60)->withHeaders([
             "Content-Type" => "application/x-www-form-urlencoded",
             "Authorization" => "Bearer ".$request->token,
-            "RqUID" => $request->client,
+            "RqUID" => '6w0b1211-c7f3-43c6-bb2e-9f3efb2dc98q'
             
         ])->withOptions(["verify"=>false])->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth',[
             "scope" => "GIGACHAT_API_PERS",
