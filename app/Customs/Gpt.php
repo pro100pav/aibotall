@@ -36,12 +36,12 @@ class Gpt
             if(isset($result->json()['choices'])){
                 return $result->json()['choices'][0]['message']['content'];
             }else if(isset($result->json()['error'])){
-                $gpt->error = 1;
+                $gpt->error = 0;
                 $gpt->save();
                 return $this->aibot($res);
             }else{
                 
-                $gpt->error = 1;
+                $gpt->error = 0;
                 $gpt->save();
                 return 0;
             }
