@@ -28,4 +28,12 @@ class Menu
             return 'Совладелец';
         }
     }
+    public function statistic($chatid){
+        $user = BotChat::where('id_telegram', $chatid)->first();
+        if($user->requests == 0){
+            return 'Запросы закончились, для продолжения пользования чат ботом, необходимо пополнить баланс';
+        }else{
+            return 'У вас отсалось '.$user->requests.' запросов, для увеличения лимита необходимо пополнить баланс';
+        }
+    }
 }

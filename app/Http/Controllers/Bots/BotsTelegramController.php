@@ -137,6 +137,18 @@ $reply = "Ваши данные для входа в личный кабинет
                     } catch (TelegramResponseException $e) {
                         $response = "Заблокирован";
                     }                    
+                }elseif($text == 'Статистика'){
+                    $create = new Menu();
+                    $resultUser = $create->statistic($chat_id);
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $resultUser,
+                            'reply_markup' => $button
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }                    
                 }elseif($text == '/login'){
                     $this->saveMessage($text, $chat_id, $bot, 'client');
                         $reply = "Личный кабинет: https://my-all.ru/login"; 
