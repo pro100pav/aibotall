@@ -21,18 +21,32 @@ class AdminController extends Controller
         return view('adminka.index');
     }
     public function authSber(Request $request){
-        $result = Http::withHeaders([
-            "Content-Type" => "application/x-www-form-urlencoded",
-            "RqUID" => "5caae699-f93c-4875-b587-a64f8152b371",
-            "Authorization" => "Bearer NWNhYWU2OTktZjkzYy00ODc1LWI1ODctYTY0ZjgxNTJiMzcxOmU4MTNjZTAyLWIxOTQtNDc1OC05Njg4LTljYTg0MjNmODZlOQ==",
-        ])
-        ->withBody(
-            'scope=GIGACHAT_API_PERS', 'application/x-www-form-urlencoded'
-        )
-        ->withOptions(["verify"=>false])
-        ->post('https://ngw.devices.sberbank.ru:9443/api/v2/oauth');
+        // $result = Http::withHeaders([
+        //     "Content-Type" => "Application/json",
+        // ])
+        // ->withOptions(["verify"=>false])
+        // ->post('https://iam.api.cloud.yandex.net/iam/v1/tokens', [
+        //     'yandexPassportOauthToken' => 'y0_AgAAAAAG_q_1AATuwQAAAADymCKNrzODTHBSQ5iTKMelo0by2K_LdSI',
+        // ]);
+
+        $result = Http::timeout(60)->withHeaders([
+            "Authorization" => "Bearer t1.9euelZrMlZ6YiYmNncrNnJXOmY7Pl-3rnpWalp3Im5yej87Lkc-UncvHyZjl8_cCZAxV-e8OahJy_t3z90ISClX57w5qEnL-zef1656Vmsacl8fLy56Rx5PJkpeXyZGc7_zF656Vmsacl8fLy56Rx5PJkpeXyZGc.UqRQF5AiMOnYj8KZ3KkbRr9zjR_QNb3Uo70Hsk0FvWnvxCcqDsj7PPkE9JIbfef44bEztvbCGlGhM7kr9A4GAQ",
+            "x-folder-id" => "b1go32f75293uersuemv",
+            ])->withOptions(["verify"=>false])->post($gpt->link,[
+            "model" => "GigaChat:latest",
+            "messages" => [
+                    [
+                        "role"=> "user",
+                        "content"=> $res
+                    ],
+                ],
+            "temperature"=> 0.7
+        ]);
+        dd($result,$result->json()['iamToken']);
+        return view('adminka.index');
+    }
+    public function send(Request $request){
         
-        dd($result,$result->json()['access_token']);
         return view('adminka.index');
     }
     function generate_uuid() {
