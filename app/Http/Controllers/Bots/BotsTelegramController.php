@@ -9,6 +9,7 @@ use App\Models\Bot\BotChat;
 use App\Models\Bot\UserChatBot;
 use App\Models\Gpt\GptKey;
 use App\Customs\Gpt;
+use App\Customs\Message\Menu;
 use App\Customs\CreateUser;
 use Telegram\Bot\Api;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -41,6 +42,7 @@ class BotsTelegramController extends Controller
                 $text = $result["message"]["text"];
             }
             $this->saveUserNew($result, $text, $chat_id, $bot);
+            $button = Keyboard::make([ 'keyboard' => [['Мой статус'],['Статистика']], 'resize_keyboard' => true, 'one_time_keyboard' => true ]);
             if($text){
                 
                 if($text == '/start'){
@@ -107,6 +109,19 @@ $reply = "Ваши данные для входа в личный кабинет
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
                             'text' => $reply,
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }
+                    $this->saveMessage($reply, $chat_id, $bot, 'bot');
+                    
+                }elseif($text == '/menu'){
+                    
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $reply,
+                            'reply_markup' => $button
                         ]);
                     } catch (TelegramResponseException $e) {
                         $response = "Заблокирован";
