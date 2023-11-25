@@ -19,4 +19,13 @@ class Menu
     public function index($req){
         
     }
+    public function status($chatid){
+        $user = BotChat::where('id_telegram', $chatid)->first();
+        if($user->role == 1){
+            return 'Пользователь';
+        }
+        if($user->role == 2){
+            return 'Совладелец';
+        }
+    }
 }

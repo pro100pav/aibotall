@@ -116,7 +116,6 @@ $reply = "Ваши данные для входа в личный кабинет
                     $this->saveMessage($reply, $chat_id, $bot, 'bot');
                     
                 }elseif($text == '/menu'){
-                    
                     try {
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
@@ -126,11 +125,21 @@ $reply = "Ваши данные для входа в личный кабинет
                     } catch (TelegramResponseException $e) {
                         $response = "Заблокирован";
                     }
-                    $this->saveMessage($reply, $chat_id, $bot, 'bot');
-                    
+                }elseif($text == 'Мой статус'){
+                    $create = new Menu();
+                    $resultUser = $create->status($chat_id);
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => $resultUser,
+                            'reply_markup' => $button
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }                    
                 }elseif($text == '/login'){
                     $this->saveMessage($text, $chat_id, $bot, 'client');
-$reply = "Личный кабинет: https://my-all.ru/login"; 
+                        $reply = "Личный кабинет: https://my-all.ru/login"; 
                         try {
                             $response = $telegram->sendMessage([
                                 'chat_id' => $chat_id,
