@@ -120,7 +120,7 @@ $reply = "Ваши данные для входа в личный кабинет
                     try {
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
-                            'text' => $reply,
+                            'text' => 'Вы в меню',
                             'reply_markup' => $button
                         ]);
                     } catch (TelegramResponseException $e) {
