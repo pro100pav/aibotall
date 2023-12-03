@@ -30,19 +30,19 @@ class AdminController extends Controller
         // ]);
 
         $result = Http::timeout(60)->withHeaders([
-            "Authorization" => "Bearer t1.9euelZrMlZ6YiYmNncrNnJXOmY7Pl-3rnpWalp3Im5yej87Lkc-UncvHyZjl8_cCZAxV-e8OahJy_t3z90ISClX57w5qEnL-zef1656Vmsacl8fLy56Rx5PJkpeXyZGc7_zF656Vmsacl8fLy56Rx5PJkpeXyZGc.UqRQF5AiMOnYj8KZ3KkbRr9zjR_QNb3Uo70Hsk0FvWnvxCcqDsj7PPkE9JIbfef44bEztvbCGlGhM7kr9A4GAQ",
-            "x-folder-id" => "b1go32f75293uersuemv",
-            ])->withOptions(["verify"=>false])->post($gpt->link,[
-            "model" => "GigaChat:latest",
-            "messages" => [
-                    [
-                        "role"=> "user",
-                        "content"=> $res
+            "Authorization" => "Bearer sk-YqqXqqNFUsgIySSDmfUUxYsI5HNQSmkr",
+            "Content-Type" => "application/json",
+            ])->withOptions(["verify"=>false])->post('https://api.proxyapi.ru/openai/v1/chat/completions',[
+                "model" => "gpt-3.5-turbo-instruct",
+                "messages" => [
+                        [
+                            "role"=> "user",
+                            "content"=> 'Какие комплектующие используются для сборки настольного компьютера?'
+                        ],
                     ],
-                ],
-            "temperature"=> 0.7
+                "temperature"=> 0.7
         ]);
-        dd($result,$result->json()['iamToken']);
+        dd($result,$result->json());
         return view('adminka.index');
     }
     public function send(Request $request){

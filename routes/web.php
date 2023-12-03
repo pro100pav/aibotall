@@ -23,6 +23,7 @@ Route::get('/info/{id}', [App\Http\Controllers\HomeController::class, 'messagefi
 Route::middleware(['auth'])->prefix('profile')->group(function () {
     Route::get('/', [App\Http\Controllers\Profile\ProfileController::class, 'index'])->name('profile.index');
     Route::get('/messages', [App\Http\Controllers\Profile\MessageBotController::class, 'index'])->name('profile.message');
+    Route::post('/turbo', [App\Http\Controllers\Profile\ProfileController::class, 'turbo'])->name('profile.turbo');
 });
 Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.index');

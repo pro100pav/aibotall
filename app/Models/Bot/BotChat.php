@@ -17,6 +17,7 @@ class BotChat extends Model
         'nicname',
         'role',
         'requests',
+        'token',
     ];
 
 
