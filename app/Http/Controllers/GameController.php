@@ -40,7 +40,7 @@ class GameController extends Controller
                         [
                             [
                                 'text' => 'Играть',
-                                'web_app' => 'https://t.me/BuildingTw_bot/appbtw'
+                                'url' => 'https://t.me/BuildingTw_bot/appbtw'
                             ]
                         ]
                     ]
