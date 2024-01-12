@@ -18,7 +18,7 @@ class GameController extends Controller
     public function index(Request $request){    
         return view('game');
     }
-    public function bot(Request $request, $id){
+    public function bot(Request $request){
 
         $token = '6651918059:AAFiXybZSR-7J_DEDeFgh15SP4HEFpJRu98';
         $telegram = new Api($token);
