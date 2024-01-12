@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class GameController extends Controller
 {
     public function index(Request $request){    
         return view('game');
