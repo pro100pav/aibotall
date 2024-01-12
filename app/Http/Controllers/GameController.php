@@ -57,7 +57,6 @@ class GameController extends Controller
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
                             'text' => 'Привет yt',
-                            
                         ]);
                     }
                 }
