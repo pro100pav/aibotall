@@ -29,6 +29,9 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.index');
     Route::post('/authSber', [App\Http\Controllers\Admin\AdminController::class, 'authSber'])->name('admin.authSber');
 });
+
+Route::get('/game', [App\Http\Controllers\GameController::class, 'index'])->name('game');
+Route::get('/game/bot', [App\Http\Controllers\GameController::class, 'bot'])->name('game.bot');
 Route::fallback(function (){
     abort(404);
 });

@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Auth;
+use App\Models\User;
+use Telegram\Bot\Api;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Keyboard\Keyboard;
+use Telegram\Bot\Exceptions\TelegramResponseException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function index(Request $request){    
+        return view('game');
+    }
+    public function bot(Request $request, $id){
+
+        $token = '6651918059:AAFiXybZSR-7J_DEDeFgh15SP4HEFpJRu98';
+        $telegram = new Api($token);
+        $result = $telegram->getWebhookUpdates();
+
+        if (isset($result["message"])) {
+            
+            $chat_id = '';
+            if(isset($result["message"]["chat"]["id"])){
+                $chat_id = $result["message"]["chat"]["id"];
+            }
+            $text = '';
+            if(isset($result["message"]["text"])){
+                $text = $result["message"]["text"];
+            }
+            $button = Keyboard::make(
+                [ 
+                    'inline_keyboard' => [
+                        [
+                            [
+                                'text' => 'Играть',
+                                'web_app' => 'https://t.me/BuildingTw_bot/appbtw'
+                            ]
+                        ]
+                    ]
+                ]);
+            if($text){
+                if($text == '/start'){
+                    try {
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => 'Привет',
+                            'reply_markup' => $button
+                        ]);
+                    } catch (TelegramResponseException $e) {
+                        $response = "Заблокирован";
+                    }
+                }
+            }
+        }
+    }
+}
