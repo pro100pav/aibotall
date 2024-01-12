@@ -54,7 +54,11 @@ class GameController extends Controller
                             'reply_markup' => $button
                         ]);
                     } catch (TelegramResponseException $e) {
-                        $response = "Заблокирован";
+                        $response = $telegram->sendMessage([
+                            'chat_id' => $chat_id,
+                            'text' => 'Привет yt',
+                            
+                        ]);
                     }
                 }
             }
