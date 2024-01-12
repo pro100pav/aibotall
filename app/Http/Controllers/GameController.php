@@ -60,6 +60,19 @@ class GameController extends Controller
                         ]);
                     }
                 }
+            }if($text == 'начать'){
+                try {
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => 'Привет',
+                        
+                    ]);
+                } catch (TelegramResponseException $e) {
+                    $response = $telegram->sendMessage([
+                        'chat_id' => $chat_id,
+                        'text' => 'Привет yt',
+                    ]);
+                }
             }
         }
     }
