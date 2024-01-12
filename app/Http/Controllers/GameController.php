@@ -23,7 +23,7 @@ class GameController extends Controller
         $token = '6651918059:AAFiXybZSR-7J_DEDeFgh15SP4HEFpJRu98';
         $telegram = new Api($token);
         $result = $telegram->getWebhookUpdates();
-        Log::emergency($result);
+
         if (isset($result["message"])) {
             
             $chat_id = '';
@@ -34,44 +34,28 @@ class GameController extends Controller
             if(isset($result["message"]["text"])){
                 $text = $result["message"]["text"];
             }
-            // $button = Keyboard::make(
-            //     [ 
-            //         'inline_keyboard' => [
-            //             [
-            //                 [
-            //                     'text' => 'Играть',
-            //                     'url' => 'https://t.me/BuildingTw_bot/appbtw'
-            //                 ]
-            //             ]
-            //         ]
-            //     ]);
+            $button = Keyboard::make(
+                [ 
+                    'inline_keyboard' => [
+                        [
+                            [
+                                'text' => 'Играть',
+                                'web_app' => 'https://t.me/BuildingTw_bot/appbtw'
+                            ]
+                        ]
+                    ]
+                ]);
             if($text){
                 if($text == '/start'){
                     try {
                         $response = $telegram->sendMessage([
                             'chat_id' => $chat_id,
                             'text' => 'Привет',
-                            
+                            'reply_markup' => $button
                         ]);
                     } catch (TelegramResponseException $e) {
-                        $response = $telegram->sendMessage([
-                            'chat_id' => $chat_id,
-                            'text' => 'Привет yt',
-                        ]);
+                        $response = "Заблокирован";
                     }
-                }
-            }if($text == 'начать'){
-                try {
-                    $response = $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => 'Привет',
-                        
-                    ]);
-                } catch (TelegramResponseException $e) {
-                    $response = $telegram->sendMessage([
-                        'chat_id' => $chat_id,
-                        'text' => 'Привет yt',
-                    ]);
                 }
             }
         }
